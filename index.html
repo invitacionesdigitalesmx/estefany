@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Invitación XV - [Tu Nombre]</title>
+  <style>
+    :root{
+      --esmeralda: #046307;
+      --dorado: #d4af37;
+      --fondo: #fbfcfb;
+      --texto:#122416;
+      --card: #ffffff;
+      --maxw:1100px;
+      --radius:12px;
+      --shadow: 0 6px 20px rgba(4,99,7,0.08);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Arial,Helvetica,sans-serif;background:var(--fondo);color:var(--texto);-webkit-font-smoothing:antialiased}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:20px}
+    header{
+      min-height:60vh;
+      background:linear-gradient(rgba(4,99,7,0.25), rgba(4,99,7,0.08)), url('tu-fondo.jpg') center/cover no-repeat;
+      border-radius:var(--radius);
+      display:flex;align-items:center;justify-content:center;text-align:center;padding:48px;
+      box-shadow:var(--shadow);position:relative;overflow:hidden;
+    }
+    .hero{
+      backdrop-filter: blur(0px);
+      padding:28px;background:rgba(255,255,255,0.6);border-radius:10px;
+    }
+    .hero h1{margin:0;font-size:2.2rem;color:var(--esmeralda);letter-spacing:0.6px}
+    .hero p{margin:8px 0 0;font-size:1rem;color:#063b12}
+    .meta{margin-top:12px;font-weight:600;color:var(--dorado)}
+
+    nav.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:22px 0}
+    .card{background:var(--card);padding:18px;border-radius:10px;box-shadow:var(--shadow);text-align:center;transition:transform .28s ease,box-shadow .28s ease}
+    .card:hover{transform:translateY(-6px)}
+    h2{color:var(--esmeralda);margin:0 0 12px;font-size:1.1rem}
+    .count{font-size:1.6rem;font-weight:700;color:var(--esmeralda)}
+    .btn{display:inline-block;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600}
+    .btn-emer{background:var(--esmeralda);color:#fff}
+    .btn-gold{background:var(--dorado);color:#08210a}
+
+    /* Gallery */
+    .gallery{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+    .gallery img{width:150px;height:150px;object-fit:cover;border-radius:10px;cursor:pointer;box-shadow:0 6px 18px rgba(3,50,3,0.08);transition:transform .2s}
+    .gallery img:hover{transform:scale(1.03)}
+
+    /* Map iframe responsive */
+    .mapwrap{width:100%;height:0;padding-bottom:56%;position:relative;border-radius:10px;overflow:hidden}
+    .mapwrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+
+    /* Itinerario list */
+    .it-list{list-style:none;padding:0;margin:0;text-align:left}
+    .it-list li{padding:10px 0;border-bottom:1px dashed rgba(4,99,7,0.06)}
+
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);z-index:1200}
+    .lightbox img{max-width:90%;max-height:80%;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,0.6)}
+
+    /* Footer */
+    footer{margin-top:26px;padding:22px;text-align:center;border-radius:10px;background:linear-gradient(90deg,rgba(4,99,7,0.06),rgba(212,175,55,0.05));}
+
+    /* Audio control */
+    .audio-control{position:fixed;right:18px;bottom:18px;background:linear-gradient(180deg,var(--card),#f9fff9);border:1px solid rgba(4,99,7,0.06);padding:10px;border-radius:12px;box-shadow:var(--shadow);display:flex;gap:8px;align-items:center;z-index:1300}
+    .audio-control button{border:0;padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600}
+    .muted{opacity:.6}
+
+    /* animations */
+    .fade-up{opacity:0;transform:translateY(10px);transition:opacity .6s ease,transform .6s ease}
+    .in-view{opacity:1;transform:none}
+
+    /* responsive tweaks */
+    @media (min-width:900px){
+      header{padding:72px}
+      .hero h1{font-size:3rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header aria-label="Portada invitación">
+      <div class="hero fade-up">
+        <h1><!-- TU NOMBRE --> Estefany Lopez Geronimo</h1>
+        <p><!-- SUBTITULO --> Te invito a celebrar mis XV años</p>
+        <p class="meta"><strong><!-- FECHA --> 29 de Diciembre de 2025</strong> ·
+           <!-- LUGAR CORTO --> Lugar: Aidas Banquetes</p>
+      </div>
+    </header>
+
+    <nav class="grid" aria-label="Accesos rápidos">
+      <div class="card fade-up">
+        <h2>Cuenta regresiva</h2>
+        <div class="count" id="countdown">Cargando...</div>
+      </div>
+
+      <div class="card fade-up">
+        <h2>Galería</h2>
+        <div class="gallery" id="gallery">
+          <!-- REEMPLAZA con tus imágenes -->
+          <img src="foto1.jpg" alt="Foto 1">
+          <img src="foto2.jpg" alt="Foto 2">
+          <img src="foto3.jpg" alt="Foto 3">
+          <img src="foto4.jpg" alt="Foto 4">
+        </div>
+      </div>
+
+      <div class="card fade-up">
+        <h2>Mesa de regalos</h2>
+        <p>Lista en Liverpool</p>
+        <a class="btn btn-gold" id="liverpoolLink" href="https://www.liverpool.com.mx/" target="_blank" rel="noopener">Ir a Liverpool</a>
+      </div>
+
+      <div class="card fade-up">
+        <h2>Confirmar asistencia</h2>
+        <p>Formulario de Google</p>
+        <a class="btn btn-emer" id="rsvpLink" href="https://forms.gle/tuFormularioGoogle" target="_blank" rel="noopener">Confirmar</a>
+      </div>
+    </nav>
+
+    <section class="card fade-up" style="margin-top:16px">
+      <h2>Itinerario</h2>
+      <ul class="it-list">
+        <!-- EDITA EL ITINERARIO -->
+        <li><strong>16:00</strong> Misa - Parroquia San José</li>
+        <li><strong>18:00</strong> Recepción - Salón Jardines del Lago</li>
+        <li><strong>20:00</strong> Baile y brindis</li>
+      </ul>
+    </section>
+
+    <section class="card fade-up" style="margin-top:16px">
+      <h2>Ubicación</h2>
+      <div class="mapwrap" aria-hidden="false">
+        <!-- SUSTITUYE el src por tu embed de Google Maps -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3818.8547948943597!2d-99.9202459261849!3d16.83355811852626!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85caf7e8cde08edd%3A0xe3a19ce2b95932d8!2sBanquetes%20Aida%C2%B4s!5e0!3m2!1ses!2smx!4v1760238036779!5m2!1ses!2smx"
+        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </section>
+
+    <section class="card fade-up" style="margin-top:16px">
+      <h2>Notas y recomendaciones</h2>
+      <p><!-- PON AQUÍ notas sobre etiqueta, código de vestimenta, parking, etc. -->
+      Código de vestimenta: Formal · Estacionamiento en sitio · Llegar 15 min antes.</p>
+    </section>
+
+    <footer>
+      <p>Gracias por acompañarme. <br>Con cariño, <!-- TU NOMBRE --> Estefany</p>
+    </footer>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-hidden="true">
+    <img src="" alt="Ampliación">
+  </div>
+
+  <!-- Audio control -->
+  <div class="audio-control" id="audioControl" aria-hidden="false">
+    <button id="btnPlay" title="Reproducir/Pausar" aria-pressed="false">⏯️</button>
+    <button id="btnMute" title="Silenciar / Activar sonido" aria-pressed="false">🔊</button>
+    <span style="font-size:.9rem;color:var(--esmeralda);font-weight:600">Música</span>
+  </div>
+
+  <!-- AUDIO: deja src vacío y pon tu MP3 -->
+  <audio id="bgAudio" loop preload="auto">
+    <!-- Ejemplo: <source src="musica.mp3" type="audio/mpeg"> -->
+  </audio>
+
+  <script>
+    /* ====== Cuenta regresiva ====== */
+    (function(){
+      const display = document.getElementById('countdown');
+      // Reemplaza por la fecha y hora de tu evento (ejemplo: "June 15, 2026 18:00:00")
+      const evento = new Date("December 29, 2025 18:00:00").getTime();
+      function update(){
+        const ahora = Date.now();
+        const d = Math.max(0, evento - ahora);
+        if(d<=0){ display.textContent = "¡Hoy es el gran día!"; return; }
+        const dias = Math.floor(d/86400000);
+        const hrs  = Math.floor((d%86400000)/3600000);
+        const min  = Math.floor((d%3600000)/60000);
+        const sec  = Math.floor((d%60000)/1000);
+        display.textContent = `${dias}d ${hrs}h ${min}m ${sec}s`;
+      }
+      update(); setInterval(update,1000);
+    })();
+
+    /* ====== Lightbox gallery ====== */
+    (function(){
+      const lb = document.getElementById('lightbox');
+      const lbImg = lb.querySelector('img');
+      document.getElementById('gallery').addEventListener('click', e=>{
+        const t = e.target;
+        if(t.tagName !== 'IMG') return;
+        lbImg.src = t.src;
+        lbImg.alt = t.alt || 'Foto';
+        lb.style.display = 'flex';
+        lb.setAttribute('aria-hidden','false');
+      });
+      lb.addEventListener('click', ()=>{ lb.style.display='none'; lb.setAttribute('aria-hidden','true'); lbImg.src=''; });
+      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') { lb.style.display='none'; lb.setAttribute('aria-hidden','true'); }});
+    })();
+
+    /* ====== Autoplay audio with fallback ====== */
+    (function(){
+      const audio = document.getElementById('bgAudio');
+      const btnPlay = document.getElementById('btnPlay');
+      const btnMute = document.getElementById('btnMute');
+      const ctrl = document.getElementById('audioControl');
+
+      // Intentar autoplay al cargar
+      function tryPlay(){
+        if(!audio) return;
+        const playPromise = audio.play();
+        if(playPromise !== undefined){
+          playPromise.then(()=>{ btnPlay.textContent = '⏸️'; btnPlay.setAttribute('aria-pressed','true'); })
+          .catch(()=>{ /* autoplay bloqueado: dejar control visible */ btnPlay.textContent = '⏯️'; btnPlay.setAttribute('aria-pressed','false'); });
+        }
+      }
+
+      // Botones
+      btnPlay.addEventListener('click', ()=>{
+        if(audio.paused){ audio.play().then(()=>btnPlay.textContent='⏸️').catch(()=>{}); }
+        else { audio.pause(); btnPlay.textContent='⏯️'; }
+      });
+
+      btnMute.addEventListener('click', ()=>{
+        audio.muted = !audio.muted;
+        btnMute.textContent = audio.muted ? '🔈' : '🔊';
+        btnMute.classList.toggle('muted', audio.muted);
+      });
+
+      // Si el audio está vacío, ocultar control
+      if(!audio.querySelector('source')){
+        ctrl.style.display = 'none';
+      } else {
+        // algunos navegadores requieren interacción. Intentamos en varios eventos.
+        window.addEventListener('load', tryPlay);
+        document.addEventListener('click', tryPlay, {once:true});
+        document.addEventListener('keydown', tryPlay, {once:true});
+      }
+    })();
+
+    /* ====== Scroll animations (IntersectionObserver) ====== */
+    (function(){
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting) e.target.classList.add('in-view');
+        });
+      },{threshold:0.12});
+      document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
+    })();
+
+    /* ====== Accesos rápidos: reemplaza enlaces dinámicos si necesitas ====== */
+    (function(){
+      // Si quieres modificar links desde script: ejemplo:
+      // document.getElementById('liverpoolLink').href = 'https://www.liverpool.com.mx/tu-lista';
+      // document.getElementById('rsvpLink').href = 'https://forms.gle/tuFormularioGoogle';
+    })();
+  </script>
+</body>
+</html>
